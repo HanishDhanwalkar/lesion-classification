@@ -1,0 +1,6 @@
+# data images
+data/*
+
+# secrets/api-keys
+code/.*
+code/*.png
