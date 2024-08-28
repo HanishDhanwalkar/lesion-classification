@@ -2,6 +2,8 @@
 data/images
 data/labels
 data/mask
+data/test*
+data/class_labels.txt
 
 # secrets/api-keys
 code/.*
