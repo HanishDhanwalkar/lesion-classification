@@ -1,5 +1,7 @@
 # data images
-data/*
+data/images
+data/labels
+data/mask
 
 # secrets/api-keys
 code/.*
