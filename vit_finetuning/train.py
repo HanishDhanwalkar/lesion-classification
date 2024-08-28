@@ -10,8 +10,8 @@ from torch.utils.data import DataLoader
 import clip
 from transformers import CLIPProcessor, CLIPModel
 
-json_path = 'path to train_data.json'
-image_path = 'path to training dataset'
+json_path = '../data/data_train.json'
+image_path = '../data/images/train/'
 
 
 with open(json_path, 'r') as f:
@@ -20,10 +20,9 @@ with open(json_path, 'r') as f:
         obj = json.loads(line)
         input_data.append(obj)
 
-
-# Load the CLIP model and processor
-model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+# # Load the CLIP model and processor
+# model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+# processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 # Choose computation device
 device = "cuda:0" if torch.cuda.is_available() else "cpu" 
@@ -31,7 +30,7 @@ device = "cuda:0" if torch.cuda.is_available() else "cpu"
 # Load pre-trained CLIP model
 model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
 
-# Define a custom dataset
+
 class image_title_dataset():
     def __init__(self, list_image_path,list_txt):
         # Initialize image paths and corresponding texts
@@ -47,36 +46,31 @@ class image_title_dataset():
         image = preprocess(Image.open(self.image_path[idx]))
         title = self.title[idx]
         return image, title
-
-# use your own data
+    
 list_image_path = []
 list_txt = []
 for item in input_data:
-  img_path = image_path + item['image_path'].split('/')[-1]
-  caption = item['product_title'][:40]
-  list_image_path.append(img_path)
-  list_txt.append(caption)
+    img_path = image_path + item['image_path'].split('/')[-1]
+    caption = item['label']
+    list_image_path.append(img_path)
+    list_txt.append(caption)
 
 dataset = image_title_dataset(list_image_path, list_txt)
-train_dataloader = DataLoader(dataset, batch_size=1000, shuffle=True) #Define your own dataloader
+train_dataloader = DataLoader(dataset, batch_size=4, shuffle=True)
 
-# Function to convert model's parameters to FP32 format
+# convert model's parameters to FP32 format
 def convert_models_to_fp32(model): 
     for p in model.parameters(): 
         p.data = p.data.float() 
         p.grad.data = p.grad.data.float() 
 
-
-if device == "cpu":
-  model.float()
-
-# Prepare the optimizer
-optimizer = torch.optim.Adam(model.parameters(), lr=5e-5,betas=(0.9,0.98),eps=1e-6,weight_decay=0.2) # the lr is smaller, more safe for fine tuning to new dataset
-
+optimizer = torch.optim.Adam(model.parameters(), lr=5e-5, betas=(0.9,0.98),eps=1e-6,weight_decay=0.2) # the lr is smaller, more safe for fine tuning to new dataset
 
 # Specify the loss function
 loss_img = nn.CrossEntropyLoss()
 loss_txt = nn.CrossEntropyLoss()
+
+torch.cuda.empty_cache()
 
 # Train the model
 num_epochs = 30

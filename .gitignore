@@ -8,3 +8,5 @@ data/class_labels.txt
 # secrets/api-keys
 code/.*
 code/*.png
+
+vit_finetuning/*.pth
