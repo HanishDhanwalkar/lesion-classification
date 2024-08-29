@@ -10,3 +10,6 @@ code/.*
 code/*.png
 
 vit_finetuning/*.pth
+VIT/*.pth
+VIT/data/train/images/*
+VIT/data/test/images/*
