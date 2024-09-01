@@ -1,9 +1,12 @@
 # data images
-data/images
+data/test/*
+data/train/*
 data/labels
 data/mask
 data/test*
 data/class_labels.txt
+
+data_original/
 
 # secrets/api-keys
 code/.*
