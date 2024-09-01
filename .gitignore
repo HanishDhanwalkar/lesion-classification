@@ -16,3 +16,6 @@ vit_finetuning/*.pth
 VIT/*.pth
 VIT/data/train/images/*
 VIT/data/test/images/*
+
+Resnet/data/train/
+Resnet/data/test/
