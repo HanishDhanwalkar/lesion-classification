@@ -19,4 +19,6 @@ VIT/data/test/images/*
 
 Resnet/data/train/
 Resnet/data/test/
+Resnet/data_balanced/train/
+Resnet/data_balanced/test/
 Resnet/data_ci
