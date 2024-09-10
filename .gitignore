@@ -1,3 +1,6 @@
+*/__pycache__
+.~*
+
 # data images
 data/test/*
 data/train/*
