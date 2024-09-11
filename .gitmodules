@@ -1,0 +1,3 @@
+[submodule "Qwen/AutoGPTQ"]
+	path = Qwen/AutoGPTQ
+	url = https://github.com/JustinLin610/AutoGPTQ.git
