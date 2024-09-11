@@ -4,6 +4,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from transformers import CLIPModel, CLIPProcessor, AdamW
 from PIL import Image
+from tqdm import tqdm
 import pandas as pd
 import clip
 
@@ -42,8 +43,6 @@ def convert_models_to_fp32(model):
     for p in model.parameters(): 
         p.data = p.data.float() 
         p.grad.data = p.grad.data.float() 
-
-from tqdm import tqdm
 
 optimizer = torch.optim.Adam(model.parameters(), lr=5e-5, betas=(0.9,0.98),eps=1e-6,weight_decay=0.2) # the lr is smaller, more safe for fine tuning to new dataset
 
